@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Shopping Cart</title>
+</head>
+
+<body>
+	<p class="breadcrums">
+		Back to <a href="/product">Products</a> |
+		<a href="/shoppingcart">Shopping Cart</a>
+	</p>
+	
+	<!--
+	  - - Commenting out while using the form command - -
+	<h4>Shopping Cart</h4>
+	<section id="shoppingcart" th:if="${not #lists.isEmpty(shoppingCart.shoppingCartItems)}">
+		<form action="#" th:object="${shoppingCart}" th:action="@{/shoppingcart/update}" method="post" accept-charset="utf-8">
+		<article th:each="shoppingCartItem, stat : *{shoppingCartItems}" style="padding:5px; border:1px solid red;">
+			<p>
+				<b><a href="/product/" th:href="@{/product/{productId}(productId=${shoppingCartItem.product.id})}"><span th:text="${shoppingCartItem.product.name}">Name</span></a></b><br/>
+				SKU: <span th:text="${shoppingCartItem.product.sku}">SKU</span><br/>
+				Price Per: $<span th:text="${#numbers.formatDecimal(shoppingCartItem.product.price, 1, 2)}">0.00</span><br/>
+				Quantity: <input type="number" th:field="*{shoppingCartItems[__${stat.index}__].quantity}" value="*{shoppingCartItem.quantity}" min="1" required="required" />
+				Subtotal: $<span th:text="${#numbers.formatDecimal(T(com.andrewsears.example.shoppingcart.util.ShoppingCartUtilities).computerShoppingCartItemSubStotal(shoppingCartItem), 0, 2)}">0.00</span>
+			</p>
+		</article>
+		<input type="hidden" th:field="*{id}" th:value="${id}" />
+		<button type="submit" name="edit" th:text="'Update Cart'" />
+		</form>
+		<article>
+			<b>Total</b>: $<span th:text="${#numbers.formatDecimal(T(com.andrewsears.example.shoppingcart.util.ShoppingCartUtilities).computeSubTotal(shoppingCart), 1, 2)}">0.00</span>
+		</article>
+	</section>
+	
+	<section id="shoppingcart" th:if="${#lists.isEmpty(shoppingCart.shoppingCartItems)}">
+		<i>There are no items</i>
+	</section>
+	-->
+
+	<h4>Shopping Cart</h4>
+	<section id="shoppingcart" th:if="${not #lists.isEmpty(shoppingCartCommand.shoppingCartItems)}">
+		<form action="#" th:object="${shoppingCartCommand}" th:action="@{/shoppingcart/update}" method="post" accept-charset="utf-8">
+		<article th:each="shoppingCartItem, stat : *{shoppingCartItems}" style="padding:5px;">
+			<p>
+				<b><a href="/product/" th:href="@{/product/{productId}(productId=${shoppingCartItem.product.id})}"><span th:text="${shoppingCartItem.product.name}">Name</span></a></b><br/>
+				SKU: <span th:text="${shoppingCartItem.product.sku}">SKU</span><br/>
+				Price Per: $<span th:text="${#numbers.formatDecimal(shoppingCartItem.product.price, 1, 2)}">0.00</span><br/>
+				Quantity: <input type="number" th:field="*{shoppingCartItems[__${stat.index}__].quantity}" value="*{shoppingCartItem.quantity}" min="0" required="required" /><br/>
+				Subtotal: $<span th:text="${#numbers.formatDecimal(T(com.andrewsears.example.shoppingcart.util.ShoppingCartUtilities).computeShoppingCartItemSubtotal(shoppingCartItem), 1, 2)}">0.00</span>
+				<input type="hidden" th:field="*{shoppingCartItems[__${stat.index}__].id}" th:value="${shoppingCartItem.id}" />
+				<input type="hidden" th:field="*{shoppingCartItems[__${stat.index}__].product.id}" th:value="${shoppingCartItem.product.id}" />
+			</p>
+		</article>
+		<input type="hidden" th:field="*{shoppingCartId}" th:value="${shoppingCartId}" />
+		<button type="submit" name="edit" th:text="'Update Cart'" />
+		</form>
+		<article>
+			<b>Total</b>: $<span th:text="${#numbers.formatDecimal(T(com.andrewsears.example.shoppingcart.util.ShoppingCartUtilities).computeSubtotal(shoppingCartCommand.shoppingCart), 1, 2)}">0.00</span>
+		</article>
+	</section>
+	
+	<section id="shoppingcart" th:if="${#lists.isEmpty(shoppingCartCommand.shoppingCartItems)}">
+		<i>There are no items</i>
+	</section>
+
+</body>
+
+</html>
